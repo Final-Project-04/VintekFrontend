@@ -194,7 +194,7 @@ class ProductCreateView(FormView):
                 'user': str(user_id) 
             }
         )
-        print (data)
+        
 
         # Define the headers for the API request
         headers = {'Authorization': f'Token {token}', 'Content-Type': data.content_type}
@@ -638,3 +638,9 @@ class DeleteConversationView(View):
             messages.error(request, 'Failed to delete conversation')
         # Redirect to the 'user_messages' view.
         return redirect('user_messages')
+    
+# -----------------About-------------------------------------------------------------------------------------------------------------------------------
+
+class About(TemplateView):
+    # Define the template name for this view
+    template_name = 'about.html'

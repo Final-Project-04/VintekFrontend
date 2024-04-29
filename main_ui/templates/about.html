@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% load static %}{% load bootstrap4 %} {% bootstrap_css %} {% block content %}
+
+<div class="container">
+    <div class="row my-4 ">
+        <div class="col-12"><h4 class="text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">The Vintek Team</h4></div></div>
+    <div class="row d-flex justify-content-between">
+        <div class="col3">
+            <div class="card" style="background-color: #f4d9ae; border: none;">
+                <div class="card-img">
+                    <img src="{% static 'about/Jonnathan.png' %}" alt="Jonnathan Gonzalez" class="img-fluid-sm" style="height: 15rem;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">Jonnathan Gonzalez</h5>
+                    <p class="card-text text-center">Team Leader</p>  
+                    <p class="card-text text-center">Frontend Developer</p> 
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="col3">
+            <div class="card" style="background-color: #f4d9ae; border: none;">
+                <div class="card-img">
+                    <img src="{% static 'about/Ibish.png' %}" alt="Ibish Selmani" class="img-fluid-sm" style="height: 15rem;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">Ibish Selmani</h5>
+                    <p class="card-text text-center">Backend Developer</p>  
+                    <p class="card-text text-center">Data Base Engineer</p> 
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="col3">
+            <div class="card" style="background-color: #f4d9ae; border: none;">
+                <div class="card-img">
+                    <img src="{% static 'about/Abraham2.png' %}" alt="Merih Abraham" class="img-fluid-sm" style="height: 15rem;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">Merih Abraham</h5>
+                    <p class="card-text text-center">Testing Engineer</p>  
+                    <p class="card-text text-center">DevOps Engineer</p> 
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
