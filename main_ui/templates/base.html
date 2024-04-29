@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vintek</title>
+    <link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon" />
+    {% load bootstrap4 %} {% bootstrap_css %}
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slackside+One&family=Yellowtail&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'custom.css' %}" />
+
+    <!-- bootstrap-icons -->
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="" style="padding-top: 80px; background-color: #f4d9ae">
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    {% block content_search %} {% endblock content_search %} {% bootstrap_javascript %} 
+    {% include "navbar.html" %} {% block cart_content %} {% endblock cart_content %} {% block content %} {% endblock content %}
+    <!-- footer -->
+
+    <div class="container text-center my-4">
+      {% if request.session.user_id %}
+      <p style="color: #2d8078;">You are logged in as <span class="text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">{{ request.session.username|capfirst }}</span>.</p>
+
+      {% else %}
+      <p style="color: #2d8078;">Please <a href="{% url 'user_authentication:login' %}">log in</a>.</p>
+
+
+      {% endif %}
+    <footer class="footer">
+      
+      
+
+
+
+      <div class="container p-3">
+        <div class="row" style="background-color: #f4d9ae">
+          <div class="col text-center">
+            <p style="font-size: 14px; margin-bottom: 5px; color: #1c404c">
+              © Vintek 2024
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

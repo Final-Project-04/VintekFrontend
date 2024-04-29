@@ -1,0 +1,121 @@
+{% extends "base.html" %}{% load static %} {% load bootstrap4 %} {% block content %}
+<div class="row justify-content-center p-4" ><img src="{% static 'Login_route.png' %}" alt="" style="height: 40px; width: auto;"></div>
+
+<div class="container justify-content-center d-flex">
+  <div class="row justify-content-center d-flex align-items-center ">
+    <div class="col-md-4  justify-content-center">
+      <div class="card" style="background-color: #2d8078">
+        <div class="card-header">
+          <h2
+            class="text-center"
+            style="font-family: 'Lobster', cursive; color: #f4d9ae"
+          >
+            Login
+          </h2>
+        </div>
+        <div class="card-body text-center">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label
+                for="{{ login_form.username.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Username</label
+              >
+              {{ login_form.username }}
+            </div>
+            <div class="mb-3">
+              <label
+                for="{{ login_form.password.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Password</label
+              >
+              {{ login_form.password }}
+            </div>
+            <button
+              type="submit"
+              class="btn btn-success"
+              style="
+                background-color: #2d8078 !important;
+                color: #f4d9ae;
+                border-color: #2d8078;
+              "
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <h3 class="text-center" style="font-family: 'Lobster', cursive; color: #1c404c"> ◀︎ Or ▶︎ </OR></h3>
+    </div>
+    <div class="col-md-4  justify-content-center">
+      <div class="card" style="background-color: #cd4f41">
+        <div class="card-header">
+          <h2
+            class="text-center"
+            style="font-family: 'Lobster', cursive; color: #f4d9ae"
+          >
+            Register
+          </h2>
+        </div>
+        <div class="card-body text-center">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label
+                for="{{ registration_form.username.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Username</label
+              >
+              {{ registration_form.username }}
+            </div>
+            <div class="mb-3">
+              <label
+                for="{{ registration_form.email.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Email</label
+              >
+              {{ registration_form.email }}
+            </div>
+            <div class="mb-3">
+              <label
+                for="{{ registration_form.password1.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Password</label
+              >
+              {{ registration_form.password1 }}
+            </div>
+            <div class="mb-3">
+              <label
+                for="{{ registration_form.password2.id_for_label }}"
+                class="form-label"
+                style="color: #f4d9ae"
+                >Confirm Password</label
+              >
+              {{ registration_form.password2 }}
+            </div>
+            <button
+              type="submit"
+              class="btn"
+              style="
+                background-color: #2d8078;
+                color: #f4d9ae;
+                border-color: #2d8078;
+              "
+            >
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

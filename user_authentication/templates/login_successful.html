@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% load static %} {% load bootstrap4 %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Login Successful</h2>
+            <p class="text-center">Welcome, {{ username }}! You have successfully logged in.</p>
+            <div class="text-center">
+                <a class="btn btn-primary" href="{% url 'user_authentication:logout' %}">Click here to Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

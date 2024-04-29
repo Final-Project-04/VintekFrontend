@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="text-center" style="font-family: 'Lobster', cursive; color: #2D8078">My Wishlist</h3>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="thead" style="background-color: #1C404C; color: #F4D9AE;">
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Condition</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in wishlist %}
+
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ product.image }}" class="rounded"
+                                    style="width: 45px; height: 45px; border-radius: 0; border-style: solid; border-color: aliceblue;">
+                            </div>
+                        </td>
+                        <td style="color: #2D8078;"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></td>
+                        <td style="color: #2D8078;">{{ product.model }}</td>
+                        <td style="color: #2D8078;">{{ product.brand }}</td>
+                        <td style="color: #2D8078;">{{ product.produced_year }}</td>
+                        <td style="color: #2D8078;">{{ product.condition }}</td>
+                        <td style="color: #2D8078;">€ {{ product.price }}</td>
+                        <td style="color: #2D8078;">
+                            <form method="post" action="{% url 'wishlist' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="btn"
+                                    style="background-color: #cd4f41 !important; color: #f4d9ae;">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="text-center text-danger">No products found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {% endif %}
+    </div>
+    {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% load static %} {% load bootstrap4 %}
+<p></p>
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div
+          class="card-header text-center"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          <h2>Register</h2>
+        </div>
+        <div
+          class="card-body"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          <form method="post">
+            {% csrf_token %} {% bootstrap_form form %}
+            <p class="text-center">
+              <button
+                class="btn"
+                type="submit"
+                style="background-color: #cd4f41; color: #f4d9ae"
+              >
+                Register
+              </button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

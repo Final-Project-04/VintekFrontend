@@ -1,0 +1,90 @@
+{% extends "base.html" %} {% load static %} {% load bootstrap4 %}
+<p></p>
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- Increase column size to 8 -->
+      <div class="card mb-3" style="background-color: #2d8078">
+        <div class="card" style="background-color: #2d8078">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="{{ profile_picture_url }}"
+                class="img-fluid d-block"
+                style="
+                  color: #f4d9ae;
+                  border: aliceblue;
+                  border-width: 10px;
+                  border-style: solid;
+                  height: 200px;
+                "
+                alt="User Profile Picture"
+              />
+              <p class="text-center" style="color: #f4d9ae">
+                <strong>Profile Picture</strong>
+              </p>
+              <!-- Add label -->
+            </div>
+            <div class="col-md-8">
+              <div
+                class="card-body"
+                style="background-color: #2d8078; color: #f4d9ae"
+              >
+                <h5 class="card-title">{{ user.user.username }}</h5>
+                <p class="card-text">
+                  <strong>Email:</strong> {{ user.user.email }}
+                </p>
+                <p class="card-text">
+                  <strong>First name:</strong> {{ user.user.first_name }}
+                </p>
+                <p class="card-text">
+                  <strong>Last name:</strong> {{ user.user.last_name }}
+                </p>
+                {% if request.session.user_id %}
+                <a
+                  href="{% url 'user_authentication:edit_user' %}"
+                  class="btn"
+                  style="background-color: #cd4f41; color: #f4d9ae"
+                  >Update User Data</a>
+                  
+                  <a
+                    href="{% url 'user_authentication:delete_account' %}"
+                    class="btn"
+                    style="background-color: #cd4f41; color: #f4d9ae"
+                    onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+                  >Delete Account</a>
+                
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div
+          class="card-body"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          <h5 class="card-title">Profile Details</h5>
+          <p class="card-text"><strong>Country:</strong> {{ user.country }}</p>
+          <p class="card-text"><strong>City:</strong> {{ user.city }}</p>
+          <p class="card-text"><strong>Address:</strong> {{ user.adress }}</p>
+          <p class="card-text">
+            <strong>Phone Number:</strong> {{ user.phone_number }}
+          </p>
+          <!-- Rest of your code... -->
+          {% if request.session.user_id %}
+          <a
+            href="{% url 'user_authentication:edit_profile' %}"
+            class="btn"
+            style="background-color: #cd4f41; color: #f4d9ae"
+            >Update Profile Details</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

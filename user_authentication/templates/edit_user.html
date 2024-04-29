@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% load static %} {% load bootstrap4 %}
+<p></p>
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow" style="background-color: #2d8078">
+        <div
+          class="card-header text-center"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          <h2>Edit User Data</h2>
+        </div>
+        <div class="card-body" style="background-color: #2d8078; color: #f4d9ae"
+        >
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            <label for="username">Username</label>
+            <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                value="{{ user.username }}"
+            />
+            </div>
+            <div class="form-group">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                value="{{ user.email }}"
+            />
+            </div>
+            <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input
+                type="text"
+                class="form-control"
+                id="first_name"
+                name="first_name"
+                value="{{ user.first_name }}"
+            />
+            </div>
+            <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input
+                type="text"
+                class="form-control"
+                id="last_name"
+                name="last_name"
+                value="{{ user.last_name }}"
+            />
+            </div>
+
+            <div class="form-group">
+            <label for="new_password">New Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="new_password"
+                name="new_password"
+                placeholder="Enter new password"
+            />
+            </div>
+
+            <p class="text-center">
+                <button type="submit" class="btn" style="background-color: #cd4f41; color: #f4d9ae"
+                >
+                    Save changes
+                    </button>
+            </p>
+            
+        </form>
+
+        
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</div>

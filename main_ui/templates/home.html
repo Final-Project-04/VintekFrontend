@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% load static %}{% load bootstrap4 %} {% bootstrap_css %} {% block content %}
+<div class="p-5 text-center rounded-3" style="background-color: #cd4f41">
+  <div class="container">
+    <div class="row">
+      <div class="col-5">
+        <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+
+
+          <div class="carousel-inner">
+            {% for image in images %}
+            <div class="carousel-item{% if forloop.first %} active{% endif %}">
+              <img class="d-block w-100 h-50" src="{{ image.image.url }}" alt="{{ image.description }}" />
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-6 d-flex align-items-center">
+        <div class="d-flex flex-column align-items-center">
+          <div class="row mb-3">
+            <h2 class="display-1" style="color: #f4d9ae">We miss 'em too!</h2>
+          </div>
+          <div class="row mb-4">
+            <h3 class="lead" style="color: #f4d9ae">
+              But don't worry, someone has one of these and is waiting for you.
+            </h3>
+          </div>
+
+
+          <div class="row">
+            <a href="{% url 'user_authentication:login' %}"><button type="button" class="btn"
+                style="background-color: #2d8078; color: #f4d9ae">
+                Start here!
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container">
+  <div class="row my-5">
+    <div class="col text-center" style="color: #2d8078;">
+      <img src="{% static 'logo_h_60.png' %}" alt="Vintek_Logo">
+      <p class="my-4 px-5" style="line-height: 1.8em;"><i>At Vintek, you can buy and sell all those nostalgic
+          technological treasures that have left a
+          mark on your life, from Polaroid cameras to turntables, and who can forget Grandma's rotary phone? Join our
+          community and connect with like-minded individuals who share our appreciation for vintage technology. Because
+          at
+          Vintek, we celebrate the timeless allure of vintage tech.</i></p>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col text-center" style="font-family: 'Lobster', cursive; color: #cd4f41; line-height: 1.4em;">
+      <h2>How it works?</h2>
+    </div>
+  </div>
+  <div class="row my-4">
+    <div class="col-4">
+      <h5 class="text-center" style="color: #2d8078;">Create Your Product</h5>
+      <img class="text-center" src="{% static 'step1.gif' %}" alt="">
+    </div>
+    <div class="col-4">
+      <h5 class="text-center" style="color: #2d8078;">Contact Potential Clients</h5>
+      <img class="text-center" src="{% static 'step2.gif' %}" alt="">
+    </div>
+    <div class="col-4">
+      <h5 class="text-center" style="color: #2d8078;">Sell or Buy Products</h5>
+      <img class="text-center" src="{% static 'step3.gif' %}" alt="">
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+{% bootstrap_javascript %} {% endblock content %}

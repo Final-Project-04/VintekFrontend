@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load order_date_filters %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-center" style="font-family: 'Lobster', cursive; color: #2D8078;">My Orders</h3>
+
+            {% for order in my_orders %}
+                <div class="card mb-3">
+                    <div class="card-header " style="background-color: #2d8078; color: #F4D9AE;">
+                        Order ID: {{ order.id }} - Status: {{ order.status }}
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for order_product in order.orderproduct_set %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="color: #1C404C;">
+                                        <h6 class="mb-0">{{ order_product.product.name }}</h6>
+                                        <small class="text-muted">Quantity: {{ order_product.quantity }}</small><br>
+                                        <small class="text-muted">Brand: {{ order_product.product.brand }}</small><br>
+                                        <small class="text-muted">Order Date at: {{ order.order_date|format_timestamp }}</small><br>
+
+                                    </div>
+                                    <span class="badge badge-light text-dark" style="background-color: #2d8078; color: #F4D9AE !important;">€ {{ order_product.product.price }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-body" style="background-color: #2D8078;">
+                        <p class="card-text" style="color: #F4D9AE;">Total Price: <strong>€ {{ order.total_price }}</strong></p>
+                        <form method="POST" action="{% url 'order_and_payment:delete_order' order.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn" style="background-color: #cd4f41; color: #F4D9AE;">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No orders found.</p>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="text-center" style="font-family: 'Lobster', cursive; color: #cd4f41;">Sold Orders  </h3>
+
+            {% for order_product in sold_orders %}
+                <div class="card mb-3">
+                    <div class="card-header " style="background-color: #cd4f41; color: #F4D9AE;">
+                        Order ID: {{ order_product.order }} - Buyer: {{ order_product.buyer_username }}
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">{{ order_product.product.name }}</h6>
+                                    <small class="text-muted">Brand: {{ order_product.product.brand }}</small><br>
+                                    <small class="text-muted">Quantity: {{ order_product.quantity }}</small><br>
+
+                                </div>
+                                <span class="badge badge-light text-dark" style="background-color: #cd4f41; color: #F4D9AE !important;">€ {{ order_product.product.price }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="card-body" style="background-color: #cd4f41; color: #F4D9AE;">
+                        <p class="card-text">Total Price: <strong>€ {{ order_product.price }}</strong></p>
+                        {% if order_product.order and order_product.order.id %}
+                            <form method="POST" action="{% url 'order_and_payment:delete_order' order_product.order.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No sold orders found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="container" >
+        <h1 class="text-center mt-5" style="font-family: 'Lobster', cursive; color: #2D8078;">Checkout</h1>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <div class="row p-3 justify-content-center" >
+            <div class="col-8 p-3" style="background-color: #2D8078; color: #f4d9ae;">
+                <form id="checkoutForm" method="post" action="{% url 'order_and_payment:checkout' %}" class="mt-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="shipping_address">Shipping Address:</label>
+                        {% if user.adress %}
+                            <p id="existingAddress">Existing address: {{ user.adress }}</p>
+                        {% endif %}
+                        <input type="text" id="shipping_address" name="shipping_address" class="form-control" placeholder="Enter a new address">
+                    </div>
+                    <button type="submit" class="btn" style="background-color: #cd4f41 !important;
+                    color: #f4d9ae;">Submit</button>
+                </form>
+
+            </div>
+        </div>
+
+        
+    </div>
+
+    <script>
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            var shippingAddressInput = document.getElementById('shipping_address');
+            if (shippingAddressInput.value === '') {
+                var existingAddress = document.getElementById('existingAddress').textContent.replace('Existing address: ', '');
+                shippingAddressInput.value = existingAddress;
+            }
+        });
+    </script>
+{% endblock %}

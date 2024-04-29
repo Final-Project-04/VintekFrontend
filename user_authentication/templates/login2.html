@@ -1,0 +1,54 @@
+{% extends "base.html" %}{% load static %} {% load bootstrap4 %}
+<p></p>
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div
+          class="card-header text-center"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          <h2>Login</h2>
+        </div>
+        <div
+          class="card-body"
+          style="background-color: #2d8078; color: #f4d9ae"
+        >
+          {%if request.session.username %}
+          <p>You are already logged in as {{ request.session.username }}.</p>
+          <p><a href="/">Go to homepage</a></p>
+
+          {% else %}
+          <form method="post">
+            {% csrf_token %} {% bootstrap_form form %}
+            <p class="text-center">
+              <button
+                class="btn"
+                type="submit"
+                style="background-color: #cd4f41; color: #f4d9ae"
+              >
+                Login
+              </button>
+            </p>
+          </form>
+          {% if user.is_authenticated %}
+          <p class="text-center">
+            <a href="{% url 'user_authentication:logout' %}">Logout</a>
+          </p>
+          {% endif %}
+          <p class="text-center" style="color: #f4d9ae">
+            Don't have an account?
+            <a
+              href="{% url 'user_authentication:register' %}"
+              style="color: #de9e46"
+              >Register</a
+            >
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

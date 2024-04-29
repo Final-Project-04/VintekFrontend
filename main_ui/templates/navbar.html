@@ -1,0 +1,203 @@
+{% load static %} {% load bootstrap4 %} {% bootstrap_css %}
+
+<nav class="navbar fixed-top navbar-expand-lg" style="background-color: #f4d9ae;">
+  <div class="container-fluid w-100">
+    <a href="{% url 'home' %}">
+      <img src="{% static 'logo_h_60.png' %}" alt="vintek_logo" />
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-three-dots-vertical" style="color: #2d8078"></i>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+          <a class="nav-link" style="color: {% if request.path == '/' %}#2d8078{% else %}#cd4f41{% endif %};"
+            href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item {% if request.path == '/categories/' %}active{% endif %}">
+          <a class="nav-link" style="color: {% if request.path == '/categories/' %}#2d8078{% else %}#cd4f41{% endif %};"
+            href="{% url 'categories' %}">Categories</a>
+        </li>
+        <li class="nav-item {% if request.path == '/all-products/' %}active{% endif %}">
+          <a class="nav-link" style="color: {% if request.path == '/products/' %}#2d8078{% else %}#cd4f41{% endif %};"
+            href="{% url 'products' %}">Products</a>
+        </li>
+
+
+        {% if request.session.user_id %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"
+            style="color: {% if request.path == '/user_authentication/profile/' or request.path == '/user_authentication/logout/' %}#2d8078{% else %}#cd4f41{% endif %}">
+            User Area
+          </a>
+          <div
+            class="dropdown-menu"
+            style="background-color: #f4d9ae"
+            aria-labelledby="navbarDropdown"
+          >
+          <a
+              class="dropdown-item"
+              href="{% url 'user_messages' %}"
+              style="color: #2d8078"
+            >My Messages</a>
+            <a
+              class="dropdown-item"
+              href="{% url 'product_create' %}"
+              style="color: #2d8078"
+            >Sell Product</a>
+            <a
+              class="dropdown-item"
+
+              href="{% url 'wishlist' %}"
+              style="color: #2d8078"
+            >My Wishlist</a>
+            <a
+              class="dropdown-item"
+              href="{% url 'user_authentication:profile' %}"
+              style="color: #2d8078"
+              >My Profile</a
+            >
+            <a
+              class="dropdown-item"
+              href="{% url 'order_and_payment:my_orders' %}"
+              style="color: #2d8078"
+            >Orders & Selling</a>
+            <a
+              class="dropdown-item"
+              href="{% url 'user_authentication:logout' %}"
+              style="color: #2d8078"
+              >Logout</a
+            >
+          <!-- <div class="dropdown-menu" style="background-color: #f4d9ae" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'user_authentication:logout' %}" style="color: #2d8078">Logout</a>
+            <a class="dropdown-item" href="{% url 'user_authentication:profile' %}" style="color: #2d8078">My
+              Profile</a>
+            <a class="dropdown-item" href="{% url 'wishlist' %}" style="color: #2d8078">My Wishlist</a>
+            <a class="dropdown-item" href="{% url 'product_create' %}" style="color: #2d8078">Sell Product</a>
+
+          </div> -->
+        </li>
+
+        {% else %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"
+            style="color: {% if request.path == '/user_authentication/login/' or request.path == '/user_authentication/register/' %}#2d8078{% else %}#cd4f41{% endif %}">
+            User Area
+          </a>
+          <div
+          
+            class="dropdown-menu"
+            style="background-color: #f4d9ae"
+            aria-labelledby="navbarDropdown"
+          >
+            <a
+              class="dropdown-item"
+              href="{% url 'user_authentication:login' %}"
+              style="color: #2d8078"
+              >Login</a
+            >
+
+            <a
+              class="dropdown-item"
+              href="{% url 'user_authentication:register' %}"
+              style="color: #2d8078"
+              >Register</a
+            >
+          <div class="dropdown-menu" style="background-color: #f4d9ae" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'user_authentication:login' %}" style="color: #2d8078">Login</a>
+
+            <a class="dropdown-item" href="{% url 'user_authentication:register' %}" style="color: #2d8078">Register</a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+
+      <div class="navbar-nav">
+        <form action="{% url 'product_search' %}" method="GET" class="d-flex p-2">
+          <input type="search" class="form-control" name="query" placeholder="Search" aria-label="Search" style="
+              background-color: aliceblue;
+              border-color: #de9e46;
+              margin-right: 10px;
+            " />
+          <button type="submit" class="btn btn-outline-success my-2 my-sm-0 custom-search-btn" style="
+              background-color: #2d8078;
+              color: #f4d9ae;
+              border-color: #2d8078;
+            ">
+            Search
+          </button>
+        </form>
+
+
+
+        {% if request.session.user_id %}
+        <a class="nav-link ml-3" href="#" id="notificationDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" style="color: #2d8078">
+          <i class="bi bi-bell-fill"></i>
+          <span id="notification-badge" class="badge badge-light" style="display: none;"></span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="notificationDropdown" id="notificationDropdownMenu">
+          <!-- Notifications will be added here -->
+        </div></span>
+        </a>
+
+
+
+        {% if request.session.user_id %}
+        <script>
+          var roomName = '{{ request.session.user_id }}';
+          var socket = new WebSocket('ws://localhost:8000/ws/notification/' + roomName + '/');
+
+          socket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            var timestamp = data['timestamp'];
+            var senderUsername = data['sender_username'];
+            var productName = data['product_name']; // Include product name
+
+            console.log(`Received message from ${senderUsername} regarding product (${productName}) at ${timestamp}: ${message}`);
+
+            // Add a new item to the dropdown menu
+            var dropdownMenu = document.getElementById('notificationDropdownMenu');
+            var newItem = document.createElement('a');
+            newItem.className = 'dropdown-item';
+            newItem.href = '{% url 'user_messages' %}';  // Set this to the URL of the My Messages page
+            newItem.textContent = `Message from ${senderUsername} regarding product (${productName}) at ${timestamp}: ${message}`; // Include product name and timestamp
+            dropdownMenu.appendChild(newItem);
+
+            // Log the contents of the dropdown menu
+            console.log('Dropdown menu contents:', dropdownMenu.innerHTML);
+
+            // Update the notification badge
+            var badge = document.getElementById('notification-badge');
+            badge.textContent = dropdownMenu.children.length;
+            badge.style.display = 'inline';
+          };
+
+          socket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+          };
+        </script>
+        {% endif %}
+
+        <a class="nav-link ml-3" href="{% url 'shoppingcart:cart' %}" style="color: #2d8078">
+          <i class="bi bi-cart-fill"></i>
+        </a>
+        <a class="nav-link ml-3" href="{% url 'wishlist' %}" style="color: #2d8078">
+          <i class="bi bi-star-fill"></i>
+        </a>
+        {% else %}
+        <p></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+{% bootstrap_javascript %}

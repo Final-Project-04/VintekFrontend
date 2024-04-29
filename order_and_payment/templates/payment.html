@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6" >
+                <div class="form-container my-5">
+                    <h1 class="text-center mt-5" style="font-family: 'Lobster', cursive; color: #2D8078;">Payment</h1>
+                    <div class="p-3" style="background-color: #2D8078;">
+                        <form class="align-middle" method="post" style="color: #F4D9AE;">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <p>
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small>{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <p style="color: red;">{{ error }}</p>
+                                    {% endfor %}
+                                </p>
+                            {% endfor %}
+                            <input class="btn" style="background-color: #cd4f41; color: #F4D9AE;" type="submit" value="Submit">
+                        </form>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
