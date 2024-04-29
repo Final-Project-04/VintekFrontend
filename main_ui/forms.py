@@ -33,12 +33,12 @@ class ProductForm(forms.Form):
         categories = cache.get('categories')
         conditions = cache.get('conditions')
         if not categories:
-            response = requests.get('http://127.0.0.1:8000/api/categories/')
+            response = requests.get('https://vintekapi.pythonanywhere.com/api/categories/')
             if response.status_code == 200:
                 categories = response.json()
                 cache.set('categories', categories)
         if not conditions:
-            response = requests.get('http://127.0.0.1:8000/api/product_conditions/')
+            response = requests.get('https://vintekapi.pythonanywhere.com/api/product_conditions/')
             if response.status_code == 200:
                 conditions = response.json()
                 cache.set('conditions', conditions)

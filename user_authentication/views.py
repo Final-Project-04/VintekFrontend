@@ -34,7 +34,7 @@ class RegisterView(FormView):
         'last_name': form.cleaned_data.get('last_name')
     }
         # Send a POST request to the registration API
-        response = requests.post("http://127.0.0.1:8000/register/", json=data)
+        response = requests.post("https://vintekapi.pythonanywhere.com/register/", json=data)
         # Handle API response
         if response.status_code == 201:
             token = response.json().get('token', '')
@@ -60,7 +60,7 @@ class LoginView(FormView):
         data = {'username': username, 'password': password}
 
         # Send a POST request to the login API
-        response = requests.post("http://127.0.0.1:8000/login/", data=data)
+        response = requests.post("https://vintekapi.pythonanywhere.com/login/", data=data)
 
         # Handle API response
         if response.status_code == 200:
@@ -89,7 +89,7 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         if 'token' in request.session:
             # Send a POST request to the logout API
-            response = requests.post('http://127.0.0.1:8000/logout/', headers={'Authorization': f'Token {request.session["token"]}'})
+            response = requests.post('https://vintekapi.pythonanywhere.com/logout/', headers={'Authorization': f'Token {request.session["token"]}'})
             
             # Handle API response
             if response.status_code == 200:
@@ -110,7 +110,7 @@ class UserProfileView(View):
         if user_id:
             token = request.session.get('token')
             # Send a GET request to the user API
-            response = requests.get(f'http://127.0.0.1:8000/api/users/{user_id}/', headers={'Authorization': f'Token {token}'})
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/api/users/{user_id}/', headers={'Authorization': f'Token {token}'})
             # Handle API response
             if response.status_code == 200:
                 user_data = response.json()
@@ -127,7 +127,7 @@ class UserProfileUpdateView(View):
         if user_id:
             token = request.session.get('token')
             # Send a GET request to the user API
-            response = requests.get(f'http://127.0.0.1:8000/api/users/{user_id}/', headers={'Authorization': f'Token {token}'})
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/api/users/{user_id}/', headers={'Authorization': f'Token {token}'})
             # Handle API response
             if response.status_code == 200:
                 return render(request, 'edit_profile.html', {'user': response.json()})
@@ -151,7 +151,7 @@ class UserProfileUpdateView(View):
                 }
             )
             # Send a PUT request to the user API
-            response = requests.put(f'http://127.0.0.1:8000/api/users/{user_id}/', data=data, headers={'Authorization': f'Token {token}', 'Content-Type': data.content_type})
+            response = requests.put(f'https://vintekapi.pythonanywhere.com/api/users/{user_id}/', data=data, headers={'Authorization': f'Token {token}', 'Content-Type': data.content_type})
             # Handle API response
             if response.status_code == 200:
                 return redirect('user_authentication:profile')
@@ -166,7 +166,7 @@ class EditUserView(View):
         if user_id:
             token = request.session.get('token')
             # Send a GET request to the user API
-            response = requests.get(f'http://127.0.0.1:8000//user/{user_id}/', headers={'Authorization': f'Token {token}'})
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/user/{user_id}/', headers={'Authorization': f'Token {token}'})
             # Handle API response
             if response.status_code == 200:
                 return render(request, 'edit_user.html', {'user': response.json()})
@@ -189,7 +189,7 @@ class EditUserView(View):
             }
             
             # Send a PUT request to the user API
-            response = requests.put(f'http://127.0.0.1:8000/user/{user_id}/', data=data, headers={'Authorization': f'Token {token}'})
+            response = requests.put(f'https://vintekapi.pythonanywhere.com/user/{user_id}/', data=data, headers={'Authorization': f'Token {token}'})
             # Handle API response
             if response.status_code == 200:
                 return redirect('user_authentication:profile')
@@ -202,7 +202,7 @@ class DeleteUserView(View):
         user_id = request.session.get('user_id')
         if user_id:
             token = request.session.get('token')
-            response = requests.delete(f'http://127.0.0.1:8000/user/{user_id}/', headers={'Authorization': f'Token {token}'})
+            response = requests.delete(f'https://vintekapi.pythonanywhere.com/user/{user_id}/', headers={'Authorization': f'Token {token}'})
             if response.status_code == 204:
                 for key in ['token', 'user_id', 'username']:
                     if key in request.session:

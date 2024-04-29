@@ -49,7 +49,7 @@ class Categories(TemplateView):
         # Call the superclass's get_context_data method
         context = super().get_context_data(**kwargs)
         # Send a GET request to the categories API
-        response = requests.get('http://127.0.0.1:8000/api/categories/')
+        response = requests.get('https://vintekapi.pythonanywhere.com/api/categories/')
 
         # Try to convert the response to JSON, if it fails, set categories_data to an empty list
         try:
@@ -60,7 +60,7 @@ class Categories(TemplateView):
         # Iterate over each category in categories_data
         for category in categories_data:
             # Send a GET request to the products API for this category
-            response = requests.get(f'http://127.0.0.1:8000/api/categories/{category["id"]}/products/')
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/api/categories/{category["id"]}/products/')
             # If the response status code is 404, set the products for this category to an empty list and continue to the next category
             if response.status_code == 404:
                 category['products'] = []
@@ -90,7 +90,7 @@ def get_username(user_id, token):
     # If the token exists, define the headers for the API request with the token, else define an empty dictionary
     headers = {'Authorization': f'Token {token}'} if token else {}
     # Send a GET request to the user API with the user_id and headers, and store the response
-    response = requests.get(f'http://127.0.0.1:8000/user/{user_id}/', headers=headers)
+    response = requests.get(f'https://vintekapi.pythonanywhere.com/user/{user_id}/', headers=headers)
     # If the response status code is 200, convert the response to JSON, get the username from the user and return it
     if response.status_code == 200:
         user = response.json()
@@ -113,7 +113,7 @@ class ProductListView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Define the URL for the products API
-        api_url = 'http://127.0.0.1:8000/api/products'
+        api_url = 'https://vintekapi.pythonanywhere.com/api/products'
         try:
             # Send a GET request to the products API and store the response
             response = requests.get(api_url)
@@ -194,11 +194,12 @@ class ProductCreateView(FormView):
                 'user': str(user_id) 
             }
         )
+        print (data)
 
         # Define the headers for the API request
         headers = {'Authorization': f'Token {token}', 'Content-Type': data.content_type}
         # Send a POST request to the product creation API and store the response
-        response = requests.post('http://127.0.0.1:8000/api/products/create/', data=data, headers=headers)
+        response = requests.post('https://vintekapi.pythonanywhere.com/api/products/create/', data=data, headers=headers)
 
         # If the response status code is 201, redirect to the products page
         if response.status_code == 201:
@@ -226,7 +227,7 @@ class ProductDetailView(TemplateView):
         # Define the headers for the API request
         headers = {'Authorization': f'Token {token}'} if token else {}
         # Send a GET request to the products API with the product_id and headers, and store the response
-        response = requests.get(f'http://127.0.0.1:8000/api/products/{product_id}', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/products/{product_id}', headers=headers)
         # If the response status code is 200, convert the response to JSON, get the product, and add additional data to the product
         if response.status_code == 200:
             product = response.json()
@@ -255,7 +256,7 @@ class ProductEditView(View):
         # Get the product_id from the URL parameters
         product_id = kwargs.get('product_id')
         # Send a GET request to the products API with the product_id and store the response
-        response = requests.get(f'http://127.0.0.1:8000/api/products/{product_id}')
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/products/{product_id}')
         # Convert the response to JSON and store the product
         product = response.json()
         # Render the product_edit.html template with the product
@@ -284,7 +285,7 @@ class ProductEditView(View):
                 'user': user_id,
             }
             # Send a PUT request to the product API with the product_id, data, and headers, and store the response
-            response = requests.put(f'http://127.0.0.1:8000/api/products/{product_id}/', data=data, headers={'Authorization': f'Token {token}'})
+            response = requests.put(f'https://vintekapi.pythonanywhere.com/api/products/{product_id}/', data=data, headers={'Authorization': f'Token {token}'})
             # If the response status code is 200, redirect to the product_detail page with the product_id
             if response.status_code == 200:
                 return redirect('product_detail', product_id=product_id)
@@ -310,7 +311,7 @@ class ProductListByCategoryView(TemplateView):
         category_id = self.kwargs['category_id']
         # Send a GET request to the products API with the category_id as a query parameter and store the response
         response = requests.get(
-            f'http://127.0.0.1:8000/api/products/?category={category_id}')
+            f'https://vintekapi.pythonanywhere.com/api/products/?category={category_id}')
         # Convert the response to JSON and store the products
         products = response.json()
         # Add the products to the context
@@ -336,7 +337,7 @@ class ProductDeleteView(View):
 
         # Send a DELETE request to the products API with the product_id and headers, and store the response
         response = requests.delete(
-            f"http://127.0.0.1:8000/api/products/{product_id}", headers=headers
+            f"https://vintekapi.pythonanywhere.com/api/products/{product_id}", headers=headers
         )
         # If the response status code is 204, add a success message to the request and redirect to the products page
         if response.status_code == 204:
@@ -360,7 +361,7 @@ class SearchView(TemplateView):
         search_term = self.request.GET.get('query', '')
 
         response = requests.get(
-            f'http://127.0.0.1:8000/api/products/search/?search={search_term}')
+            f'https://vintekapi.pythonanywhere.com/api/products/search/?search={search_term}')
 
         try:
             products = response.json()
@@ -388,14 +389,14 @@ class WishlistView(View):
         # Define the headers for the API request
         headers = {'Authorization': f'Token {token}'} if token else {}
         # Send a GET request to the wishlist API with the headers and store the response
-        response = requests.get('http://127.0.0.1:8000/api/wishlist/', headers=headers)
+        response = requests.get('https://vintekapi.pythonanywhere.com/api/wishlist/', headers=headers)
         # Convert the response to JSON and store the wishlist
         wishlist = response.json()
         
         # Iterate over each product in the wishlist
         for product in wishlist:
             # Prepend the domain of the API server to the image URL and update the image URL in the product
-            product['image'] = 'http://127.0.0.1:8000' + product['image']
+            product['image'] = 'https://vintekapi.pythonanywhere.com/' + product['image']
                 
         # Render the wishlist.html template with the wishlist
         return render(request, 'wishlist.html', {'wishlist': wishlist})
@@ -412,7 +413,7 @@ class WishlistView(View):
 
         # If the action is 'delete', send a DELETE request to the wishlist API with the product_id and headers, and store the response
         if action == 'delete':
-            response = requests.delete('http://127.0.0.1:8000/api/wishlist/', data={'product_id': product_id}, headers=headers)
+            response = requests.delete('https://vintekapi.pythonanywhere.com/api/wishlist/', data={'product_id': product_id}, headers=headers)
             # If the response status code is 204, redirect to the wishlist page
             if response.status_code == 204:
                 return redirect('wishlist')
@@ -422,7 +423,7 @@ class WishlistView(View):
                 return render(request, 'wishlist.html', {'error': error_message})
         # If the action is not 'delete', send a POST request to the wishlist API with the product_id and headers, and store the response
         else:
-            response = requests.post('http://127.0.0.1:8000/api/wishlist/', data={'product_id': product_id}, headers=headers)
+            response = requests.post('https://vintekapi.pythonanywhere.com/api/wishlist/', data={'product_id': product_id}, headers=headers)
             # If the response status code is 204, redirect to the wishlist page
             if response.status_code == 204:
                 return redirect('wishlist')
@@ -448,7 +449,7 @@ class MessageFormView(View):
         headers = {'Authorization': f'Token {token}'} if token else {}
 
         # Send a GET request to the products API with the product_id and headers
-        response = requests.get(f'http://127.0.0.1:8000/api/products/{product_id}/', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/products/{product_id}/', headers=headers)
 
         # If the response status code is 200, process the product data
         if response.status_code == 200:
@@ -502,7 +503,7 @@ class MessageFormView(View):
         }
 
         # Send a POST request to the messages API with the message_data and headers
-        response = requests.post('http://127.0.0.1:8000/messages/', data=message_data, headers=headers)
+        response = requests.post('https://vintekapi.pythonanywhere.com/messages/', data=message_data, headers=headers)
 
         # If the response status code is 201, add a success message to the request and redirect to the product_detail page with the product_id
         if response.status_code == 201:
@@ -536,7 +537,7 @@ class UserMessagesView(TemplateView):
         headers = {'Authorization': f'Token {token}'} if token else {}
 
         # Send a GET request to the messages API with the user_id as a query parameter and headers, and store the response
-        response = requests.get(f'http://127.0.0.1:8000/messages/?user_id={user_id}', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/messages/?user_id={user_id}', headers=headers)
 
         # If the response status code is 200, convert the response to JSON and store the messages, else store an empty list
         messages = response.json() if response.status_code == 200 else []
@@ -554,12 +555,12 @@ class UserMessagesView(TemplateView):
             message['timestamp'] = parse(message['timestamp'])
 
             # Send a GET request to the user API with the sender_id and headers, convert the response to JSON and store the sender, and store the sender's username in the message
-            response = requests.get(f'http://127.0.0.1:8000/user/{message["sender_id"]}/', headers=headers)
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/user/{message["sender_id"]}/', headers=headers)
             sender = response.json() if response.status_code == 200 else {}
             message['sender_name'] = sender.get('username')
 
             # Send a GET request to the products API with the product_id and headers, convert the response to JSON and store the product, and store the product's name in the message
-            response = requests.get(f'http://127.0.0.1:8000/api/products/{message["product_id"]}/', headers=headers)
+            response = requests.get(f'https://vintekapi.pythonanywhere.com/api/products/{message["product_id"]}/', headers=headers)
             product = response.json() if response.status_code == 200 else {}
             message['product_name'] = product.get('name')
 
@@ -602,7 +603,7 @@ class ReplyCreateView(FormView):
         }
         
         # Send a POST request to the server to create a reply.
-        response = requests.post('http://127.0.0.1:8000/messages/reply_create/', data=message_data, headers=headers)
+        response = requests.post('https://vintekapi.pythonanywhere.com/messages/reply_create/', data=message_data, headers=headers)
         
         # If the response status code is 201, the reply was created successfully.
         if response.status_code == 201:
@@ -628,7 +629,7 @@ class DeleteConversationView(View):
         # Create headers for the request. If token exists, add it to the headers.
         headers = {'Authorization': f'Token {token}'} if token else {}
         # Send a DELETE request to the server to delete the conversation.
-        response = requests.delete(f'http://127.0.0.1:8000/messages/delete_conversation/{product_id}/', headers=headers)
+        response = requests.delete(f'https://vintekapi.pythonanywhere.com/messages/delete_conversation/{product_id}/', headers=headers)
         # If the response status code is 200, the conversation was deleted successfully.
         if response.status_code == 200:
             messages.success(request, 'Conversation deleted successfully')

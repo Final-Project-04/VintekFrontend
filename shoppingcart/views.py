@@ -21,7 +21,7 @@ class ShoppingCartView(View):
         # Get the headers
         headers = self.get_headers(request)
         # Send a GET request to the shopping cart API and store the response
-        response = requests.get('http://localhost:8000/api/shopping-cart/', headers=headers)
+        response = requests.get('https://vintekapi.pythonanywhere.com/api/shopping-cart/', headers=headers)
         # Convert the response to JSON
         cart = response.json()
         # Get the items from the cart, if there are no items, return an empty list
@@ -32,7 +32,7 @@ class ShoppingCartView(View):
         for item in items:
             # If the product has an image, prepend the server URL to the image URL
             if item['product']['image'] is not None:
-                item['product']['image'] = 'http://localhost:8000' + item['product']['image']
+                item['product']['image'] = 'https://vintekapi.pythonanywhere.com/' + item['product']['image']
             # Calculate the total price for this item (price * quantity) and add it to the total price
             item_total = float(item['product']['price']) * float(item['quantity'])
             total_price += item_total
@@ -50,7 +50,7 @@ class AddProductView(ShoppingCartView):
         # Get the headers
         headers = self.get_headers(request)
         # Define the URL for the API request
-        url = f'http://localhost:8000/api/shopping-cart/add-product/'
+        url = f'https://vintekapi.pythonanywhere.com/api/shopping-cart/add-product/'
         # Define the data to be sent with the request
         data = {'product_id': product_id, 'quantity': quantity}
         # Send a POST request to the API and store the response
@@ -72,7 +72,7 @@ class RemoveProductView(ShoppingCartView):
         # Get the headers
         headers = self.get_headers(request)
         # Send a DELETE request to the API to remove a product and store the response
-        response = requests.delete(f'http://localhost:8000/api/shopping-cart/{cart_item_id}/remove-product/', headers=headers)
+        response = requests.delete(f'https://vintekapi.pythonanywhere.com/api/shopping-cart/{cart_item_id}/remove-product/', headers=headers)
         # If the response has content, get the message from it, else store a default message
         if response.content:
             message = response.json().get('message')
@@ -88,7 +88,7 @@ class DeleteProductView(ShoppingCartView):
         # Get the headers
         headers = self.get_headers(request)
         # Send a DELETE request to the API to delete a product and store the response
-        response = requests.delete(f'http://localhost:8000/api/shopping-cart/{cart_item_id}/delete-product/', headers=headers)
+        response = requests.delete(f'https://vintekapi.pythonanywhere.com/api/shopping-cart/{cart_item_id}/delete-product/', headers=headers)
         # If the response has content, get the message from it, else store a default message
         if response.content:
             message = response.json().get('message')
@@ -107,10 +107,10 @@ class UpdateQuantityView(ShoppingCartView):
         headers = self.get_headers(request)
         # If the change is negative, send a DELETE request to decrease the quantity
         if change < 0:
-            response = requests.delete(f'http://localhost:8000/api/shopping-cart/{pk}/remove-product/', headers=headers)
+            response = requests.delete(f'https://vintekapi.pythonanywhere.com/api/shopping-cart/{pk}/remove-product/', headers=headers)
         # If the change is positive, send a POST request to increase the quantity
         else:
-            response = requests.post(f'http://localhost:8000/api/shopping-cart/{pk}/increment-product/', headers=headers)
+            response = requests.post(f'https://vintekapi.pythonanywhere.com/api/shopping-cart/{pk}/increment-product/', headers=headers)
         # If the response status code is 200 or 204, add a success message, else add an error message
         if response.status_code == 200 or response.status_code == 204:
             messages.success(request, "Quantity updated successfully")
@@ -132,7 +132,7 @@ class ShoppingCartCalculator:
         for item in items:
             # If the product has an image, prepend the server URL to the image URL
             if item['product']['image'] is not None:
-                item['product']['image'] = 'http://localhost:8000' + item['product']['image']
+                item['product']['image'] = 'https://vintekapi.pythonanywhere.com/' + item['product']['image']
             # Try to convert the price and quantity to float and calculate the item total
             try:
                 price = float(item['product']['price'])

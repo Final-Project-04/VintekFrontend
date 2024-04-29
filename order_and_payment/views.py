@@ -17,7 +17,7 @@ class CheckoutView(View):
 
         headers = {'Authorization': f'Token {token}'}
         user_id = request.session.get('user_id')
-        response = requests.get(f'http://localhost:8000/api/users/{user_id}/', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/users/{user_id}/', headers=headers)
         user = response.json()
 
         if user['adress'] is None:
@@ -33,7 +33,7 @@ class CheckoutView(View):
         headers = {'Authorization': f'Token {token}'}
 
         # Get the user's shopping cart by making a GET request to the shopping cart API endpoint
-        response = requests.get(f'http://localhost:8000/api/shopping-cart/', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/shopping-cart/', headers=headers)
         cart = response.json()
 
         # Calculate the total price of the cart
@@ -49,7 +49,7 @@ class CheckoutView(View):
             'shipping_address': request.POST.get('shipping_address'),
         }
 
-        response = requests.post('http://localhost:8000/order/create/', headers=headers, json=data)
+        response = requests.post('https://vintekapi.pythonanywhere.com/order/create/', headers=headers, json=data)
 
         # Check if the order was created successfully
         if response.status_code == 201:
@@ -64,7 +64,7 @@ class CheckoutView(View):
                     'price': item['product']['price'],
                 }
                 #print(f'Sending data: {data}')  # Print the data being sent
-                response = requests.post('http://localhost:8000/order/product/add/', headers=headers, json=data)
+                response = requests.post('https://vintekapi.pythonanywhere.com/order/product/add/', headers=headers, json=data)
                 if response.status_code != 201:
                     print(f'Failed to create OrderProduct: {response.status_code} {response.content}')
                 else:
@@ -78,7 +78,7 @@ class CheckoutView(View):
                 print("We have an order_id:", order['id'])
 
             ## Clear the shopping cart by making a DELETE request to the clear_cart API endpoint
-            response = requests.delete('http://localhost:8000/api/shopping-cart/clear_cart/', headers=headers)
+            response = requests.delete('https://vintekapi.pythonanywhere.com/api/shopping-cart/clear_cart/', headers=headers)
 
             # Check the response status code
             if response.status_code == 204:
@@ -117,7 +117,7 @@ class OrderConfirmationView(View):
         order_id = kwargs.get('order_id')
 
         # Send a GET request to the orders API to get the details of the order
-        response = requests.get(f'http://localhost:8000/api/orders/{order_id}/', headers=headers)
+        response = requests.get(f'https://vintekapi.pythonanywhere.com/api/orders/{order_id}/', headers=headers)
         print(f'Response status code: {response.status_code}')
 
         # If the response status code is 200, get the order from the response and render the order_confirmation.html template with the order
@@ -204,7 +204,7 @@ class PaymentView(View):
                 'payment_info': payment_info,
             }
             # Send a POST request to the payment process API and store the response
-            response = requests.post('http://localhost:8000/payment/process/', headers=headers, json=data)
+            response = requests.post('https://vintekapi.pythonanywhere.com/payment/process/', headers=headers, json=data)
             # If the response status code is 200, redirect to the order_confirmation page
             if response.status_code == 200:
                 return redirect('order_and_payment:order_confirmation', order_id=order_id)
@@ -229,7 +229,7 @@ class MyOrdersView(View):
         headers = {'Authorization': f'Token {token}'}
         
         # Fetch the orders made by the logged-in user
-        response = requests.get('http://localhost:8000/api/orders', headers=headers)
+        response = requests.get('https://vintekapi.pythonanywhere.com/api/orders', headers=headers)
         if response.status_code == 200:
             my_orders = response.json()
         else:
@@ -237,7 +237,7 @@ class MyOrdersView(View):
 
         # Fetch the orders sold by the logged-in user
         # This requires a new endpoint on the backend that lists orders where the logged-in user is the seller
-        response = requests.get('http://localhost:8000/api/sold_orders', headers=headers)
+        response = requests.get('https://vintekapi.pythonanywhere.com/api/sold_orders', headers=headers)
         if response.status_code == 200:
             sold_orders = response.json()
         else:
@@ -255,7 +255,7 @@ class DeleteOrderView(View):
         headers = {'Authorization': f'Token {token}'}
 
         # Send a DELETE request to the API to delete the order
-        response = requests.delete(f'http://localhost:8000/api/orders/{order_id}', headers=headers)
+        response = requests.delete(f'https://vintekapi.pythonanywhere.com/api/orders/{order_id}', headers=headers)
         if response.status_code == 204:
             # If the deletion was successful, redirect to the 'my_orders' page
             return redirect('order_and_payment:my_orders')
